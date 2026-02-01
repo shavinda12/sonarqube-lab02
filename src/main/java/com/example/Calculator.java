@@ -2,48 +2,51 @@ package main.java.com.example;
 
 public class Calculator {
 
-    // Code Smell: Long method + high complexity
-    // EVEN WORSE: longer, more complex, duplicated logic
-    public int calculate(int a, int b, String op) {
-if(op.equals("add")) {
-return a + b;
-} else if(op.equals("add-again")) {
-return a + b; // DUPLICATION
-} else if(op.equals("sub")) {
-return a - b;
-} else if(op.equals("sub-again")) {
-return a - b; // DUPLICATION
-} else if(op.equals("mul")) {
-return a * b;
-} else if(op.equals("div")) {
-if(b == 0) {
-return 0;
-} else {
-return a / b;
-}
-} else if(op.equals("mod")) {
-return a % b;
-} else if(op.equals("pow")) {
-int result = 1;
-for(int i = 0; i < b; i++) {
-result = result * a;
-}
-return result;
-} else {
-return 0;
-}
-}
+    public enum Operation {
+        ADD {
+            @Override
+            public int apply(int a, int b) {
+                return a + b;
+            }
+        },
+        SUBTRACT {
+            @Override
+            public int apply(int a, int b) {
+                return a - b;
+            }
+        },
+        MULTIPLY {
+            @Override
+            public int apply(int a, int b) {
+                return a * b;
+            }
+        },
+        DIVIDE {
+            @Override
+            public int apply(int a, int b) {
+                if (b == 0) {
+                    throw new ArithmeticException("Division by zero is not allowed");
+                }
+                return a / b;
+            }
+        },
+        MODULO {
+            @Override
+            public int apply(int a, int b) {
+                return a % b;
+            }
+        },
+        POWER {
+            @Override
+            public int apply(int a, int b) {
+                return (int) Math.pow(a, b);
+            }
+        };
 
-    // Code Duplication (students must remove)
-    public int addNumbers(int x, int y) {
-        return x + y;
+        public abstract int apply(int a, int b);
     }
 
-    public int sumValues(int a, int b) {
-        return a + b;
+    public int calculate(int a, int b, Operation operation) {
+        return operation.apply(a, b);
     }
-    // INTENTIONAL DUPLICATION
-public int addAgain(int a, int b) {
-return a + b;
-}
 }
