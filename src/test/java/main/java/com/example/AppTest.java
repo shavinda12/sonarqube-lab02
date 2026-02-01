@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
+    //Test cases for the app class
 
     @Test
     void testCalculatorLogic() {
